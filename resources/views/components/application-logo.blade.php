@@ -1,0 +1,1 @@
+<img src="{{ asset('assets/img/logo.png') }}" alt="Logo PKBM Bela Warga" class="object-fill h-10 md:h-12">
