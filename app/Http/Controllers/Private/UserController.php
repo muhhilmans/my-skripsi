@@ -36,14 +36,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -64,7 +56,7 @@ class UserController extends Controller
 
         $user->assignRole($request->roles);
 
-        return Redirect::route('users.index')->with('status', 'User telah dibuat!');
+        return Redirect::route('users.index')->with('success', 'User telah dibuat!');
     }
 
     /**
@@ -86,9 +78,29 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class . ',email,' . $user->id],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
+            'roles' => ['required'],
+        ]);
+
+        // $user = User::findOrFail($id);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
+
+        $user->syncRoles($request->roles);
+
+        return Redirect::route('users.index')->with('success', 'User telah diperbarui!');
     }
 
     /**
@@ -100,6 +112,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return Redirect::route('users.index')->with('status', 'User telah dihapus!');
+        return Redirect::route('users.index')->with('success', 'User telah dihapus!');
     }
 }

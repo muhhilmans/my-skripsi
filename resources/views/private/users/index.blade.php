@@ -7,8 +7,8 @@
                 </h2>
             </div>
             <div class="relative flex items-center">
-                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'create-user')">
-                    {{ __('Tambah') }}
+                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'createModal')">
+                    <i class='bx bx-plus me-1'></i> {{ __('Tambah') }}
                 </x-primary-button>
                 @include('private.users.partials.create')
             </div>
@@ -103,9 +103,14 @@
                                                     </td>
 
                                                     <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                        <x-secondary-button x-data=""
+                                                            x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
+                                                                class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                                        @include('private.users.partials.edit')
                                                         <x-danger-button x-data=""
-                                                            x-on:click.prevent="$dispatch('open-modal', 'confirm-delete-user-{{ $user->id }}')">{{ __('Hapus') }}</x-danger-button>
-                                                            @include('private.users.partials.delete')
+                                                            x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $user->id }}')"><i
+                                                                class='bx bx-trash bx-sm'></i></x-danger-button>
+                                                        @include('private.users.partials.delete')
                                                     </td>
                                                 </tr>
                                             @endforeach
