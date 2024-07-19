@@ -31,7 +31,7 @@
                             </span>
 
                             <input type="text" placeholder="Search"
-                                class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+                                class="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
                                 id="filter">
                         </div>
                     </div>
@@ -39,48 +39,48 @@
                     <div class="flex flex-col mt-6">
                         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                                <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
-                                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                                        <thead class="bg-gray-50 dark:bg-gray-800">
+                                <div class="overflow-hidden border border-gray-200 md:rounded-lg">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
                                             <tr>
                                                 <th scope="col"
-                                                    class="py-3.5 px-4 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    class="py-3.5 px-4 text-sm font-normal text-center rtl:text-right text-gray-500">
                                                     #
                                                 </th>
 
                                                 <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
                                                     Tingkat
                                                 </th>
 
                                                 <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
                                                     Kelas
                                                 </th>
 
                                                 <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500 dark:text-gray-400">
+                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
                                                     Aksi
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody
-                                            class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                                            class="bg-white divide-y divide-gray-200">
                                             @foreach ($levels as $level)
                                                 <tr>
                                                     <td
                                                         class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
-                                                        <h4 class="text-gray-700 dark:text-gray-200">
+                                                        <h4 class="text-gray-700">
                                                             {{ $loop->iteration + $levels->perPage() * ($levels->currentPage() - 1) }}
                                                         </h4>
                                                     </td>
                                                     <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                                                        <h2 class="font-medium text-gray-800 dark:text-white  ps-3">
+                                                        <h2 class="font-medium text-gray-800 ps-3">
                                                             Paket {{ $level->name }}
                                                         </h2>
                                                     </td>
                                                     <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                        <h4 class="text-gray-700 dark:text-gray-200">
+                                                        <h4 class="text-gray-700">
                                                             Kelas {{ $level->class }}
                                                         </h4>
                                                     </td>
