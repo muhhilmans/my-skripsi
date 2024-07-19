@@ -28,10 +28,10 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['role:superadmin|admin']], function () {
         Route::group(['middleware' => ['role:superadmin']], function () {
-            Route::resource('levels', LevelController::class);
+            Route::resource('levels', LevelController::class)->except('create', 'edit', 'show');
         });
-        Route::resource('school-years', SchoolYearController::class);
-        Route::resource('users', UserController::class);
+        Route::resource('school-years', SchoolYearController::class)->except('create', 'edit', 'show');
+        Route::resource('users', UserController::class)->except('create', 'edit', 'show');
     });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

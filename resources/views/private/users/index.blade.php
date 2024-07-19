@@ -103,10 +103,19 @@
                                                     </td>
 
                                                     <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        <x-secondary-button x-data=""
-                                                            x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
-                                                                class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                                        @include('private.users.partials.edit')
+                                                        @hasrole('superadmin')
+                                                            <x-secondary-button x-data=""
+                                                                x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
+                                                                    class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                                            @include('private.users.partials.edit')
+                                                        @else
+                                                            @if ($user->roles->first()->name != 'superadmin')
+                                                                <x-secondary-button x-data=""
+                                                                    x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
+                                                                        class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                                                @include('private.users.partials.edit')
+                                                            @endif
+                                                        @endhasrole
                                                         <x-danger-button x-data=""
                                                             x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $user->id }}')"><i
                                                                 class='bx bx-trash bx-sm'></i></x-danger-button>
