@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Private;
 
-use App\Http\Controllers\Controller;
+use App\Models\SchoolYear;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class SchoolYearController extends Controller
 {
@@ -12,23 +16,37 @@ class SchoolYearController extends Controller
      */
     public function index()
     {
-        return view('private.school-years.index');
-    }
+        $schoolYears = SchoolYear::paginate(10);
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('private.school-years.index', compact('schoolYears'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'early_year' => ['required', 'integer'],
+            'final_year' => ['required', 'integer'],
+            'semester' => ['required', 'boolean'],
+            'active' => ['required', 'boolean'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }    
+
+        SchoolYear::create([
+            'early_year' => $request->early_year,
+            'final_year' => $request->final_year,
+            'semester' => $request->semester,
+            'active' => $request->active,
+        ]);
+
+        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah dibuat!');
     }
 
     /**
@@ -50,16 +68,40 @@ class SchoolYearController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, SchoolYear $schoolYear): RedirectResponse
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'early_year' => ['required', 'integer'],
+            'final_year' => ['required', 'integer'],
+            'semester' => ['required', 'boolean'],
+            'active' => ['required', 'boolean'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }    
+
+        $schoolYear->early_year = $request->early_year;
+        $schoolYear->final_year = $request->final_year;
+        $schoolYear->semester = $request->semester;
+        $schoolYear->active = $request->active;
+        
+        $schoolYear->save();
+
+        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $schoolYear = SchoolYear::findOrFail($request->data_id);
+
+        $schoolYear->delete();
+
+        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah dihapus!');
     }
 }

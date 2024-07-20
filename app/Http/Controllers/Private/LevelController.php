@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 
 class LevelController extends Controller
 {
@@ -25,17 +26,23 @@ class LevelController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'class' => ['required', 'integer'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
 
         Level::create([
             'name' => $request->name,
             'class' => $request->class,
         ]);
 
-        return Redirect::route('levels.index')->with('success', 'Level telah dibuat!');
+        return Redirect::route('levels.index')->with('success', 'Tingkat telah dibuat!');
     }
 
     /**
@@ -59,17 +66,23 @@ class LevelController extends Controller
      */
     public function update(Request $request, Level $level): RedirectResponse
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
             'class' => ['required', 'integer'],
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                             ->withErrors($validator)
+                             ->withInput();
+        }
 
         $level->name = $request->name;
         $level->class = $request->class;
         
         $level->save();
 
-        return Redirect::route('levels.index')->with('success', 'Level telah diperbarui!');
+        return Redirect::route('levels.index')->with('success', 'Tingkat telah diperbarui!');
     }
 
     /**
