@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Private\UserController;
 use App\Http\Controllers\Private\LevelController;
+use App\Http\Controllers\Private\CourseController;
 use App\Http\Controllers\Private\SchoolYearController;
 
 /*
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
         Route::group(['middleware' => ['role:superadmin']], function () {
             Route::resource('levels', LevelController::class)->except('create', 'edit', 'show');
         });
+
+        Route::resource('courses', CourseController::class)->except('create', 'edit', 'show');
         Route::resource('school-years', SchoolYearController::class)->except('create', 'edit', 'show');
         Route::resource('users', UserController::class)->except('create', 'edit', 'show');
     });

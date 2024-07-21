@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Level extends Model
+class Course extends Model
 {
     use HasFactory, HasUuids;
 
@@ -15,11 +15,17 @@ class Level extends Model
 
     protected $fillable = [
         'name',
-        'class',
+        'level_id',
+        'user_id',
     ];
 
-    public function courses()
+    public function level()
     {
-        return $this->hasMany(Course::class);
+        return $this->belongsTo(Level::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

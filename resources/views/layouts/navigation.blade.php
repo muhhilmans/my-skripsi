@@ -16,6 +16,9 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     @hasrole('superadmin|admin')
+                        <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                            {{ __('Mata Pelajaran') }}
+                        </x-nav-link>
                         @hasrole('superadmin')
                             <x-nav-link :href="route('levels.index')" :active="request()->routeIs('levels.*')">
                                 {{ __('Tingkatan') }}
