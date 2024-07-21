@@ -69,52 +69,63 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody
-                                            class="bg-white divide-y divide-gray-200">
-                                            @foreach ($schoolYears as $sy)
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            @if ($schoolYears->count() == 0)
                                                 <tr>
-                                                    <td
+                                                    <td colspan="5"
                                                         class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                                         <h4 class="text-gray-700">
-                                                            {{ $loop->iteration + $schoolYears->perPage() * ($schoolYears->currentPage() - 1) }}
+                                                            Tidak ada data
                                                         </h4>
-                                                    </td>
-                                                    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap text-center">
-                                                        <h2 class="font-medium text-gray-800 ps-3">
-                                                            {{ $sy->early_year }}/{{ $sy->final_year }}
-                                                        </h2>
-                                                    </td>
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        <h4 class="text-gray-700">
-                                                            @if ($sy->semester == 1)
-                                                                Ganjil
-                                                            @else
-                                                                Genap
-                                                            @endif
-                                                        </h4>
-                                                    </td>
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        <h4 class="text-gray-700">
-                                                            @if ($sy->active == 1)
-                                                                Aktif
-                                                            @else
-                                                                Tidak
-                                                            @endif
-                                                        </h4>
-                                                    </td>
-
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        <x-secondary-button x-data=""
-                                                            x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $sy->id }}')"><i
-                                                                class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                                        @include('private.school-years.partials.edit')
-                                                        <x-danger-button x-data=""
-                                                            x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $sy->id }}')"><i
-                                                                class='bx bx-trash bx-sm'></i></x-danger-button>
-                                                        @include('private.school-years.partials.delete')
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            @else
+                                                @foreach ($schoolYears as $sy)
+                                                    <tr>
+                                                        <td
+                                                            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                                                            <h4 class="text-gray-700">
+                                                                {{ $loop->iteration + $schoolYears->perPage() * ($schoolYears->currentPage() - 1) }}
+                                                            </h4>
+                                                        </td>
+                                                        <td
+                                                            class="px-12 py-4 text-sm font-medium whitespace-nowrap text-center">
+                                                            <h2 class="font-medium text-gray-800 ps-3">
+                                                                {{ $sy->early_year }}/{{ $sy->final_year }}
+                                                            </h2>
+                                                        </td>
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                            <h4 class="text-gray-700">
+                                                                @if ($sy->semester == 1)
+                                                                    Ganjil
+                                                                @else
+                                                                    Genap
+                                                                @endif
+                                                            </h4>
+                                                        </td>
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                            <h4 class="text-gray-700">
+                                                                @if ($sy->active == 1)
+                                                                    Aktif
+                                                                @else
+                                                                    Tidak
+                                                                @endif
+                                                            </h4>
+                                                        </td>
+
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                            <x-secondary-button x-data=""
+                                                                x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $sy->id }}')"><i
+                                                                    class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                                            @include('private.school-years.partials.edit')
+                                                            <x-danger-button x-data=""
+                                                                x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $sy->id }}')"><i
+                                                                    class='bx bx-trash bx-sm'></i></x-danger-button>
+                                                            @include('private.school-years.partials.delete')
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

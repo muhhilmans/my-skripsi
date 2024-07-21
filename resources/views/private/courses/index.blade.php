@@ -72,7 +72,12 @@
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @if ($courses->count() == 0)
                                                 <tr>
-                                                    <td colspan="5" class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">Tidak ada data</td>
+                                                    <td colspan="5"
+                                                        class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                                                        <h4 class="text-gray-700">
+                                                            Tidak ada data
+                                                        </h4>
+                                                    </td>
                                                 </tr>
                                             @else
                                                 @foreach ($courses as $course)

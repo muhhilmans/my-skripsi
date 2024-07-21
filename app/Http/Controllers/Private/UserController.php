@@ -20,17 +20,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(10);
+        $currentUser = auth()->user();
 
-        $userRole = auth()->user()->getRoleNames();
-
-        if ($userRole->contains('superadmin')) {
+        if ($currentUser->hasRole('superadmin')) {
+            $users = User::paginate(10);
             $roles = Role::all();
         } else {
+            $users = User::whereDoesntHave('roles', function ($query) {
+                $query->where('name', 'superadmin');
+            })->paginate(10);
             $roles = Role::where('name', '<>', 'superadmin')->get();
         }
-
-        // dd($users);
 
         return view('private.users.index', compact(['users', 'roles']));
         // return $dataTable->render('private.users.index');
@@ -51,8 +51,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $user = User::create([
@@ -96,8 +96,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         // $user = User::findOrFail($id);

@@ -70,59 +70,69 @@
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody
-                                            class="bg-white divide-y divide-gray-200">
-                                            @foreach ($users as $user)
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            @if ($users->count() == 0)
                                                 <tr>
-                                                    <td
+                                                    <td colspan="5"
                                                         class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                                         <h4 class="text-gray-700">
-                                                            {{ $loop->iteration + $users->perPage() * ($users->currentPage() - 1) }}
+                                                            Tidak ada data
                                                         </h4>
                                                     </td>
-                                                    <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
-                                                        <div class="flex items-center">
-                                                            <img class="object-cover w-10 h-10 -mx-1 border-2 border-gray-500 rounded-full shrink-0"
-                                                                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                                                                alt="">
-                                                            <h2 class="font-medium text-gray-800 ps-3">
-                                                                {{ $user->name }}
-                                                            </h2>
-                                                        </div>
-                                                    </td>
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                        <h4 class="text-gray-700">
-                                                            {{ $user->email }}
-                                                        </h4>
-                                                    </td>
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        <div
-                                                            class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60">
-                                                            {{ $user->getRoleNames()->first() ?? 'Belum Ada Roles' }}
-                                                        </div>
-                                                    </td>
+                                                </tr>
+                                            @else
+                                                @foreach ($users as $user)
+                                                    <tr>
+                                                        <td
+                                                            class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                                                            <h4 class="text-gray-700">
+                                                                {{ $loop->iteration + $users->perPage() * ($users->currentPage() - 1) }}
+                                                            </h4>
+                                                        </td>
+                                                        <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <img class="object-cover w-10 h-10 -mx-1 border-2 border-gray-500 rounded-full shrink-0"
+                                                                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
+                                                                    alt="">
+                                                                <h2 class="font-medium text-gray-800 ps-3">
+                                                                    {{ $user->name }}
+                                                                </h2>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
+                                                            <h4 class="text-gray-700">
+                                                                {{ $user->email }}
+                                                            </h4>
+                                                        </td>
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                            <div
+                                                                class="inline px-3 py-1 text-sm font-normal rounded-full text-emerald-500 gap-x-2 bg-emerald-100/60">
+                                                                {{ $user->getRoleNames()->first() ?? 'Belum Ada Roles' }}
+                                                            </div>
+                                                        </td>
 
-                                                    <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                        @hasrole('superadmin')
-                                                            <x-secondary-button x-data=""
-                                                                x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
-                                                                    class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                                            @include('private.users.partials.edit')
-                                                        @else
-                                                            @if ($user->roles->first()->name != 'superadmin')
+                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                            @hasrole('superadmin')
                                                                 <x-secondary-button x-data=""
                                                                     x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
                                                                         class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
                                                                 @include('private.users.partials.edit')
-                                                            @endif
-                                                        @endhasrole
-                                                        <x-danger-button x-data=""
-                                                            x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $user->id }}')"><i
-                                                                class='bx bx-trash bx-sm'></i></x-danger-button>
-                                                        @include('private.users.partials.delete')
-                                                    </td>
-                                                </tr>
-                                            @endforeach
+                                                            @else
+                                                                @if ($user->roles->first()->name != 'superadmin')
+                                                                    <x-secondary-button x-data=""
+                                                                        x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $user->id }}')"><i
+                                                                            class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                                                    @include('private.users.partials.edit')
+                                                                @endif
+                                                            @endhasrole
+                                                            <x-danger-button x-data=""
+                                                                x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $user->id }}')"><i
+                                                                    class='bx bx-trash bx-sm'></i></x-danger-button>
+                                                            @include('private.users.partials.delete')
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
