@@ -19,4 +19,9 @@ class SchoolYear extends Model
         'semester',
         'active',
     ];
+
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
 }

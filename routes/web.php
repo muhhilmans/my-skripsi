@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Private\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Private\UserController;
@@ -19,7 +20,7 @@ use App\Http\Controllers\Private\SchoolYearController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('levels', LevelController::class)->except('create', 'edit', 'show');
         });
 
+        Route::resource('classrooms', ClassroomController::class)->except('create', 'edit', 'show');
         Route::resource('courses', CourseController::class)->except('create', 'edit', 'show');
         Route::resource('school-years', SchoolYearController::class)->except('create', 'edit', 'show');
         Route::resource('users', UserController::class)->except('create', 'edit', 'show');
