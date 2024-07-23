@@ -7,6 +7,7 @@ use App\Models\Level;
 use App\Models\Classroom;
 use App\Models\SchoolYear;
 use Illuminate\Http\Request;
+use App\Models\ClassroomUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -24,7 +25,7 @@ class ClassroomController extends Controller
         $schoolYears = SchoolYear::all();
 
         $classrooms = Classroom::with('level', 'user', 'schoolYear')->paginate(10);
-        
+
         return view('private.classrooms.index', compact('classrooms', 'levels', 'tutors', 'schoolYears'));
     }
 
@@ -42,8 +43,8 @@ class ClassroomController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         Classroom::create([
@@ -59,9 +60,54 @@ class ClassroomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Classroom $classroom)
     {
-        //
+        if ($classroom) {
+            $allStudents = User::role('wargabelajar')->get();
+            $classroomStudents = ClassroomUser::where('classroom_id', $classroom->id)->paginate(10);
+            $studentsInAnyClassroom = ClassroomUser::pluck('user_id')->toArray();
+
+            $availableStudents = $allStudents->filter(function ($student) use ($studentsInAnyClassroom) {
+                return !in_array($student->id, $studentsInAnyClassroom);
+            });
+
+            return view('private.classrooms.detail', [
+                'classroom' => $classroom,
+                'classroomStudents' => $classroomStudents,
+                'students' => $availableStudents
+            ]);
+        } else {
+            return Redirect::route('classrooms.index')->with('error', 'Detail Ruang Kelas tidak ditemukan!');
+        }
+    }
+
+    public function addStudent(Request $request, $id): RedirectResponse
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $classroom = Classroom::find($id);
+
+        if (!$classroom) {
+            return Redirect::route('classrooms.index')->with('error', 'Kelas tidak ditemukan!');
+        }
+
+        ClassroomUser::create([
+            'classroom_id' => $id,
+            'user_id' => $request->input('user_id'),
+        ]);
+
+        return Redirect::route('classrooms.show', $classroom->id)->with('status', 'Siswa telah ditambahkan!');
+    }
+
+    public function removeStudent(Request $request)
+    {
+        $student = ClassroomUser::findOrFail($request->data_id);
+
+        $student->delete();
+
+        return redirect()->back()->with('success', 'Siswa telah dihapus dari kelas!');
     }
 
     /**
@@ -86,15 +132,15 @@ class ClassroomController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                             ->withErrors($validator)
-                             ->withInput();
+                ->withErrors($validator)
+                ->withInput();
         }
 
         $classroom->name = $request->name;
         $classroom->level_id = $request->level_id;
         $classroom->user_id = $request->user_id;
         $classroom->school_year_id = $request->school_year_id;
-        
+
         $classroom->save();
 
         return Redirect::route('classrooms.index')->with('success', 'Ruang Kelas telah diperbarui!');

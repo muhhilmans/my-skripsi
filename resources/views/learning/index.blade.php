@@ -7,10 +7,12 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
+            <div class="flex flex-wrap -mx-4">
+                @foreach ($classrooms as $cr)
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8">
+                        <x-card title="{{ $cr->name }}" description="{{ $cr->user->name }}" link="#" />
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

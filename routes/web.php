@@ -34,7 +34,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('levels', LevelController::class)->except('create', 'edit', 'show');
         });
 
-        Route::resource('classrooms', ClassroomController::class)->except('create', 'edit', 'show');
+        Route::resource('classrooms', ClassroomController::class)->except('create', 'edit');
+        Route::post('classrooms/{classroom}/add-student', [ClassroomController::class, 'addStudent'])->name('classrooms.add-student');
+        Route::delete('classrooms/{classroom}/remove-student', [ClassroomController::class, 'removeStudent'])->name('classrooms.remove-student');
         Route::resource('courses', CourseController::class)->except('create', 'edit', 'show');
         Route::resource('school-years', SchoolYearController::class)->except('create', 'edit', 'show');
         Route::resource('users', UserController::class)->except('create', 'edit', 'show');

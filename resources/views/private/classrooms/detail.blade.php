@@ -1,18 +1,20 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <div class="inline-flex overflow-hidden divide-x">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Ruang Kelas') }}
-                </h2>
-            </div>
-            <div class="relative flex items-center">
-                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'createModal')">
-                    <i class='bx bx-plus me-1'></i> {{ __('Tambah') }}
+        <div class="flex justify-between items-center">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Ruang Kelas') }} {{ $classroom->name }} ({{ $classroom->user->name }})
+            </h2>
+            <div class="flex items-center">
+                <a href="{{ route('classrooms.index') }}"
+                   class="inline-flex items-center px-2 py-1 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150 me-1">
+                    <i class='bx bx-left-arrow-alt bx-sm'></i>
+                </a>
+                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'addModal')">
+                    <i class='bx bx-plus me-1'></i> {{ __('Siswa') }}
                 </x-primary-button>
-                @include('private.classrooms.partials.create')
+                @include('private.classrooms.partials.addData')
             </div>
-        </div>
+        </div>        
     </x-slot>
 
     <div class="py-12">
@@ -50,22 +52,7 @@
 
                                                 <th scope="col"
                                                     class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
-                                                    Nama
-                                                </th>
-
-                                                <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
-                                                    Tingkat
-                                                </th>
-
-                                                <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
-                                                    Walikelas
-                                                </th>
-
-                                                <th scope="col"
-                                                    class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
-                                                    Tahun Ajaran
+                                                    Nama Siswa
                                                 </th>
 
                                                 <th scope="col"
@@ -75,7 +62,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white divide-y divide-gray-200">
-                                            @if ($classrooms->count() == 0)
+                                            @if ($classroomStudents->count() == 0)
                                                 <tr>
                                                     <td colspan="6"
                                                         class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
@@ -85,50 +72,25 @@
                                                     </td>
                                                 </tr>
                                             @else
-                                                @foreach ($classrooms as $cr)
+                                                @foreach ($classroomStudents as $data)
                                                     <tr>
                                                         <td
                                                             class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                                             <h4 class="text-gray-700">
-                                                                {{ $loop->iteration + $classrooms->perPage() * ($classrooms->currentPage() - 1) }}
+                                                                {{ $loop->iteration + $classroomStudents->perPage() * ($classroomStudents->currentPage() - 1) }}
                                                             </h4>
                                                         </td>
                                                         <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                                                             <h2 class="font-medium text-gray-800 ps-3">
-                                                                {{ $cr->name }}
+                                                                {{ $data->user->name }}
                                                             </h2>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                            <h4 class="text-gray-700 text-center">
-                                                                Paket {{ $cr->level->name }} / Kelas
-                                                                {{ $cr->level->class }}
-                                                            </h4>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                            <h4 class="text-gray-700 text-center">
-                                                                {{ $cr->user->name }}
-                                                            </h4>
-                                                        </td>
-                                                        <td class="px-4 py-4 text-sm whitespace-nowrap">
-                                                            <h4 class="text-gray-700 text-center">
-                                                                {{ $cr->schoolYear->early_year }}/{{ $cr->schoolYear->final_year }}
-                                                                ({{ $cr->schoolYear->semester ? 'Ganjil' : 'Genap' }})
-                                                            </h4>
                                                         </td>
 
                                                         <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                                            <a href="{{ route('classrooms.show', $cr->id) }}"
-                                                                class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150">
-                                                                <i class='bx bx-info-circle bx-sm'></i>
-                                                            </a>
-                                                            <x-secondary-button x-data=""
-                                                                x-on:click.prevent="$dispatch('open-modal', 'editModal{{ $cr->id }}')"><i
-                                                                    class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                                            @include('private.classrooms.partials.edit')
                                                             <x-danger-button x-data=""
-                                                                x-on:click.prevent="$dispatch('open-modal', 'deleteModal{{ $cr->id }}')"><i
+                                                                x-on:click.prevent="$dispatch('open-modal', 'removeModal{{ $data->id }}')"><i
                                                                     class='bx bx-trash bx-sm'></i></x-danger-button>
-                                                            @include('private.classrooms.partials.delete')
+                                                            @include('private.classrooms.partials.removeData')
                                                         </td>
                                                     </tr>
                                                 @endforeach
@@ -141,7 +103,7 @@
                     </div>
 
                     <div class="md:flex md:items-center md:justify-end mt-4">
-                        {{ $classrooms->links('layouts.pagination') }}
+                        {{-- {{ $classroom->links('layouts.pagination') }} --}}
                     </div>
                 </div>
             </div>

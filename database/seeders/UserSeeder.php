@@ -21,7 +21,10 @@ class UserSeeder extends Seeder
             ['name' => 'Super Admin', 'email' => 'superadmin@gmail.com', 'role' => 'superadmin'],
             ['name' => 'Admin', 'email' => 'admin@gmail.com', 'role' => 'admin'],
             ['name' => 'Tutor', 'email' => 'tutor@gmail.com', 'role' => 'tutor'],
+            ['name' => 'Tutor 2', 'email' => 'tutor2@gmail.com', 'role' => 'tutor'],
             ['name' => 'Warga Belajar', 'email' => 'wargabelajar@gmail.com', 'role' => 'wargabelajar'],
+            ['name' => 'Warga Belajar 2', 'email' => 'wargabelajar2@gmail.com', 'role' => 'wargabelajar'],
+            ['name' => 'Warga Belajar3', 'email' => 'wargabelajar3@gmail.com', 'role' => 'wargabelajar'],
         ];
 
         foreach ($users as $userData) {
