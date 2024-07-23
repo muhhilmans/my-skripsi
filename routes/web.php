@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LearningController;
 use App\Http\Controllers\Private\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
@@ -38,6 +39,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('school-years', SchoolYearController::class)->except('create', 'edit', 'show');
         Route::resource('users', UserController::class)->except('create', 'edit', 'show');
     });
+
+    Route::get('/learning', [LearningController::class, 'index'])->name('learning.index');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

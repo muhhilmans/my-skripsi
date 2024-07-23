@@ -15,24 +15,33 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('learning.index')" :active="request()->routeIs('learning.index')">
+                        {{ __('Pembelajaran') }}
+                    </x-nav-link>
                     @hasrole('superadmin|admin')
-                        <x-nav-link :href="route('classrooms.index')" :active="request()->routeIs('classrooms.*')">
-                            {{ __('Kelas') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
-                            {{ __('Mata Pelajaran') }}
-                        </x-nav-link>
-                        @hasrole('superadmin')
-                            <x-nav-link :href="route('levels.index')" :active="request()->routeIs('levels.*')">
-                                {{ __('Tingkatan') }}
-                            </x-nav-link>
-                        @endhasrole
-                        <x-nav-link :href="route('school-years.index')" :active="request()->routeIs('school-years.*')">
-                            {{ __('Tahun Ajaran') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                            {{ __('Users') }}
-                        </x-nav-link>
+                        <x-nav-dropdown title="Master" :active="request()->routeIs('classrooms.*') ||
+                            request()->routeIs('courses.*') ||
+                            request()->routeIs('levels.*') ||
+                            request()->routeIs('school-years.*') ||
+                            request()->routeIs('users.*')">
+                            <x-dropdown-link :href="route('classrooms.index')" :active="request()->routeIs('classrooms.*')">
+                                {{ __('Kelas') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                                {{ __('Mata Pelajaran') }}
+                            </x-dropdown-link>
+                            @hasrole('superadmin')
+                                <x-dropdown-link :href="route('levels.index')" :active="request()->routeIs('levels.*')">
+                                    {{ __('Tingkatan') }}
+                                </x-dropdown-link>
+                            @endhasrole
+                            <x-dropdown-link :href="route('school-years.index')" :active="request()->routeIs('school-years.*')">
+                                {{ __('Tahun Ajaran') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                                {{ __('Users') }}
+                            </x-dropdown-link>
+                        </x-nav-dropdown>
                     @endhasrole
                 </div>
             </div>
@@ -97,6 +106,36 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('learning.index')" :active="request()->routeIs('learning.index')">
+                {{ __('Pembelajaran') }}
+            </x-responsive-nav-link>
+            @hasrole('superadmin|admin')
+                <div class="pt-4 pb-1 border-t border-gray-200">
+                    <div class="px-4">
+                        <div class="font-medium text-base text-gray-800">Master</div>
+                    </div>
+
+                    <div class="mt-3 space-y-1">
+                        <x-responsive-nav-link :href="route('classrooms.index')" :active="request()->routeIs('classrooms.*')">
+                            {{ __('Kelas') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('courses.index')" :active="request()->routeIs('courses.*')">
+                            {{ __('Mata Pelajaran') }}
+                        </x-responsive-nav-link>
+                        @hasrole('superadmin')
+                            <x-responsive-nav-link :href="route('levels.index')" :active="request()->routeIs('levels.*')">
+                                {{ __('Tingkatan') }}
+                            </x-responsive-nav-link>
+                        @endhasrole
+                        <x-responsive-nav-link :href="route('school-years.index')" :active="request()->routeIs('school-years.*')">
+                            {{ __('Tahun Ajaran') }}
+                        </x-responsive-nav-link>
+                        <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                            {{ __('Users') }}
+                        </x-responsive-nav-link>
+                    </div>
+                </div>
+            @endhasrole
         </div>
 
         <!-- Responsive Settings Options -->
