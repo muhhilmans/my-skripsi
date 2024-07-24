@@ -15,7 +15,7 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('learning.index')" :active="request()->routeIs('learning.index')">
+                    <x-nav-link :href="route('learning.index')" :active="request()->routeIs(['learning.index', 'learning.show', 'learning.course.show'])">
                         {{ __('Pembelajaran') }}
                     </x-nav-link>
                     @hasrole('superadmin|admin')
@@ -106,7 +106,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('learning.index')" :active="request()->routeIs('learning.index')">
+            <x-responsive-nav-link :href="route('learning.index')" :active="request()->routeIs(['learning.index', 'learning.show'])">
                 {{ __('Pembelajaran') }}
             </x-responsive-nav-link>
             @hasrole('superadmin|admin')

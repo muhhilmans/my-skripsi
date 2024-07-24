@@ -43,6 +43,11 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/learning', [LearningController::class, 'index'])->name('learning.index');
+    Route::get('/learning/{classroom}', [LearningController::class, 'show'])->name('learning.show');
+    Route::get('/learning/{classroom}/course/{course}', [LearningController::class, 'showCourse'])->name('learning.course.show');
+    Route::post('/learning/{classroom}/course/{course}', [LearningController::class, 'storeSubject'])->name('learning.course.storeSubject');
+
+    Route::get('/subject/file/{id}', [LearningController::class, 'downloadSubject'])->name('subject.file.download');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
