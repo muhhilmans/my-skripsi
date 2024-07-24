@@ -51,17 +51,20 @@
                                         @endphp
 
                                         <a href="{{ $isFile ? route('subject.file.download', $subject->id) : $subject->url }}"
-                                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150" target="_blank">
+                                            class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                            target="_blank">
                                             <i class='bx bx-info-circle bx-sm'></i>
                                         </a>
-                                        <x-secondary-button x-data=""
-                                            x-on:click.prevent="$dispatch('open-modal', 'editSubjectModal{{ $subject->id }}')"><i
-                                                class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                        @include('learning.partials.editSubject')
-                                        <x-danger-button x-data=""
-                                            x-on:click.prevent="$dispatch('open-modal', 'deleteSubjectModal{{ $subject->id }}')"><i
-                                                class='bx bx-trash bx-sm'></i></x-danger-button>
-                                        @include('learning.partials.deleteSubject')
+                                        @hasrole('superadmin|admin|tutor')
+                                            <x-secondary-button x-data=""
+                                                x-on:click.prevent="$dispatch('open-modal', 'editSubjectModal{{ $subject->id }}')"><i
+                                                    class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
+                                            @include('learning.partials.editSubject')
+                                            <x-danger-button x-data=""
+                                                x-on:click.prevent="$dispatch('open-modal', 'deleteSubjectModal{{ $subject->id }}')"><i
+                                                    class='bx bx-trash bx-sm'></i></x-danger-button>
+                                            @include('learning.partials.deleteSubject')
+                                        @endhasrole
                                     </td>
                                 </tr>
                             @endforeach
