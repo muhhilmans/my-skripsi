@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Task extends Model
+class TaskStudent extends Model
 {
     use HasFactory, HasUuids;
 
@@ -14,18 +14,23 @@ class Task extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'title',
-        'file_path',
-        'course_id',
+        'task_id',
+        'file_task',
+        'user_id'
     ];
 
-    public function course()
+    public function task()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Task::class);
     }
 
-    public function taskStudent()
+    public function taskEvaluation()
     {
-        return $this->hasMany(TaskStudent::class);
+        return $this->hasOne(TaskEvaluation::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

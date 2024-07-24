@@ -12,7 +12,22 @@
 
                             <th scope="col"
                                 class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
+                                Nama Siswa
+                            </th>
+
+                            <th scope="col"
+                                class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
                                 Judul Tugas
+                            </th>
+
+                            <th scope="col"
+                                class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
+                                Nilai
+                            </th>
+
+                            <th scope="col"
+                                class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
+                                Catatan
                             </th>
 
                             <th scope="col"
@@ -21,62 +36,54 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200" id="tableTask">
-                        @if ($tasks->count() == 0)
+                    <tbody class="bg-white divide-y divide-gray-200" id="tableEvaluation">
+                        @if ($taskStudents->count() == 0)
                             <tr>
-                                <td colspan="6" class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
+                                <td colspan="4" class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                     <h4 class="text-gray-700">
                                         Tidak ada data
                                     </h4>
                                 </td>
                             </tr>
                         @else
-                            @foreach ($tasks as $task)
+                            @foreach ($taskStudents as $evaluation)
                                 <tr>
                                     <td class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                         <h4 class="text-gray-700">
-                                            {{ $loop->iteration + $tasks->perPage() * ($tasks->currentPage() - 1) }}
+                                            {{ $loop->iteration + $taskStudents->perPage() * ($taskStudents->currentPage() - 1) }}
                                         </h4>
                                     </td>
                                     <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
                                         <h2 class="font-medium text-gray-800 ps-3">
-                                            {{ $task->title }}
+                                            {{ $evaluation->user->name }}
+                                        </h2>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                        <h2 class="font-medium text-gray-800 ps-3">
+                                            {{ $evaluation->task->title }}
+                                        </h2>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                        <h2 class="font-medium text-gray-800 ps-3 text-center">
+                                            {{ $evaluation->taskEvaluation->score ?? "Belum dinilai" }}
+                                        </h2>
+                                    </td>
+                                    <td class="px-4 py-4 text-sm font-medium whitespace-nowrap">
+                                        <h2 class="font-medium text-gray-800 ps-3">
+                                            {!! $evaluation->taskEvaluation->notes ?? "Belum dinilai" !!}
                                         </h2>
                                     </td>
 
                                     <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
-                                        <a href="{{ route('task.file.download', $task->id) }}"
+                                        <a href="{{ route('evaluation.file.download', $evaluation->id) }}"
                                             class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150"
                                             target="_blank">
                                             <i class='bx bx-download bx-sm'></i>
                                         </a>
-                                        @hasrole('superadmin|admin|tutor')
-                                            <x-secondary-button x-data=""
-                                                x-on:click.prevent="$dispatch('open-modal', 'editTaskModal{{ $task->id }}')"><i
+                                        <x-secondary-button x-data=""
+                                                x-on:click.prevent="$dispatch('open-modal', 'editEvaluationModal{{ $evaluation->id }}')"><i
                                                     class='bx bx-edit-alt bx-sm'></i></x-secondary-button>
-                                            @include('learning.partials.editTask')
-                                            <x-danger-button x-data=""
-                                                x-on:click.prevent="$dispatch('open-modal', 'deleteTaskModal{{ $task->id }}')"><i
-                                                    class='bx bx-trash bx-sm'></i></x-danger-button>
-                                            @include('learning.partials.deleteTask')
-                                        @endhasrole
-                                        @hasrole('wargabelajar')
-                                            @php
-                                                $taskForStudent = $taskStudent->where('task_id', $task->id)->first();
-                                            @endphp
-                                            @if ($taskForStudent)
-                                                <x-secondary-button x-data=""
-                                                    x-on:click.prevent="$dispatch('open-modal', 'showEvaluationModal{{ $task->id }}')">
-                                                    <i class='bx bx-info-circle bx-sm'></i>
-                                                </x-secondary-button>
-                                                @include('learning.partials.detailEvaluation')
-                                            @else
-                                                <x-secondary-button x-data=""
-                                                    x-on:click.prevent="$dispatch('open-modal', 'uploadTaskModal{{ $task->id }}')"><i
-                                                        class='bx bx-upload bx-sm'></i></x-secondary-button>
-                                                @include('learning.partials.uploadTask')
-                                            @endif
-                                        @endhasrole
+                                            @include('learning.partials.editEvaluation')
                                     </td>
                                 </tr>
                             @endforeach
@@ -89,19 +96,18 @@
 </div>
 
 <div class="md:flex md:items-center md:justify-end mt-4">
-    {{ $tasks->links('layouts.pagination') }}
+    {{-- {{ $taskStudents->links('layouts.pagination') }} --}}
 </div>
-
 @push('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const filterTask = document.getElementById("filterTask");
-            const tableTask = document.getElementById("tableTask");
+            const filterEvaluation = document.getElementById("filterEvaluation");
+            const tableEvaluation = document.getElementById("tableEvaluation");
 
-            if (filterTask && tableTask) {
-                filterTask.addEventListener("input", (e) => {
+            if (filterEvaluation && tableEvaluation) {
+                filterEvaluation.addEventListener("input", (e) => {
                     const search = e.target.value.toLowerCase();
-                    tableTask.querySelectorAll("tr").forEach((row) => {
+                    tableEvaluation.querySelectorAll("tr").forEach((row) => {
                         const cells = row.querySelectorAll("td");
                         const shouldShow = Array.from(cells).some(cell => cell.innerText
                             .toLowerCase().includes(search));

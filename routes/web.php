@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\LearningController;
 use App\Http\Controllers\Private\ClassroomController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Private\UserController;
 use App\Http\Controllers\Private\LevelController;
 use App\Http\Controllers\Private\CourseController;
 use App\Http\Controllers\Private\SchoolYearController;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,11 +56,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/subject/file/{id}', [LearningController::class, 'downloadSubject'])->name('subject.file.download');
 
     // Manage Task
-    Route::post('/learning/{classroom}/course/{course}/save-task', [LearningController::class, 'storeTask'])->name('learning.course.storeTask');
-    Route::put('/learning/{classroom}/course/{course}/update-task', [LearningController::class, 'updateTask'])->name('learning.course.updateTask');
-    Route::delete('/learning/{classroom}/course/{course}/delete-task', [LearningController::class, 'deleteTask'])->name('learning.course.deleteTask');
+    Route::post('/learning/{classroom}/course/{course}/save-task', [TaskController::class, 'storeTask'])->name('learning.course.storeTask');
+    Route::put('/learning/{classroom}/course/{course}/update-task', [TaskController::class, 'updateTask'])->name('learning.course.updateTask');
+    Route::delete('/learning/{classroom}/course/{course}/delete-task', [TaskController::class, 'deleteTask'])->name('learning.course.deleteTask');
 
-    Route::get('/task/file/{id}', [LearningController::class, 'downloadTask'])->name('task.file.download');
+    Route::get('/task/file/{id}', [TaskController::class, 'downloadTask'])->name('task.file.download');
+
+    // Manage Evaluation
+    Route::put('/learning/{classroom}/course/{course}/evaluation-task', [EvaluationController::class, 'evaluationTask'])->name('learning.course.evaluationTask');
+    
+    Route::get('/evaluation/file/{id}', [EvaluationController::class, 'downloadEvaluation'])->name('evaluation.file.download');
+
+    // Upload Task
+    Route::post('/learning/{classroom}/course/{course}/upload-task', [TaskController::class, 'uploadTask'])->name('learning.course.uploadTask');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
