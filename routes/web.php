@@ -45,7 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/learning', [LearningController::class, 'index'])->name('learning.index');
     Route::get('/learning/{classroom}', [LearningController::class, 'show'])->name('learning.show');
     Route::get('/learning/{classroom}/course/{course}', [LearningController::class, 'showCourse'])->name('learning.course.show');
-    Route::post('/learning/{classroom}/course/{course}', [LearningController::class, 'storeSubject'])->name('learning.course.storeSubject');
+    Route::post('/learning/{classroom}/course/{course}/save-subject', [LearningController::class, 'storeSubject'])->name('learning.course.storeSubject');
+    Route::put('/learning/{classroom}/course/{course}/update-subject', [LearningController::class, 'updateSubject'])->name('learning.course.updateSubject');
+    Route::delete('/learning/{classroom}/course/{course}/delete-subject', [LearningController::class, 'deleteSubject'])->name('learning.course.deleteSubject');
 
     Route::get('/subject/file/{id}', [LearningController::class, 'downloadSubject'])->name('subject.file.download');
 

@@ -82,9 +82,9 @@ class LearningController extends Controller
         if ($request->input('format') == 'file') {
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
-                
+
                 $fileName = $request->input('title') . '_' . $course->name . '_' . 'Paket' . $classroom->level->name . '_' . 'Kelas' . $classroom->level->class . '.' . $file->getClientOriginalExtension();
-                
+
                 $directory = 'subjects' . $request->input('name');
                 if (!Storage::exists($directory)) {
                     Storage::makeDirectory($directory);
@@ -106,11 +106,11 @@ class LearningController extends Controller
     {
         try {
             $subject = Subject::findOrFail($id);
-            
+
             if (!$subject->file_path || !Storage::exists('public/subjects/' . $subject->file_path)) {
                 return redirect()->back()->with('error', 'File not found.');
             }
-            
+
             $filePath = 'public/subjects/' . $subject->file_path;
             $fileName = $subject->file_path;
             $fileContent = Storage::get($filePath);
@@ -122,5 +122,71 @@ class LearningController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred.');
         }
+    }
+
+    public function updateSubject(Request $request, Classroom $classroom, Course $course): RedirectResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'format' => 'required|in:file,url',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx|max:2048',
+            'url' => 'nullable|url',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        $subject = Subject::find($request->input('subject_id'));
+
+        $subject->course_id = $course->id;
+        $subject->title = $request->input('title');
+        $subject->format = $request->input('format');
+
+        if ($request->input('format') == 'file') {
+            if ($request->hasFile('file')) {
+                if ($subject->file_path) {
+                    $oldFilePath = 'subjects/' . $subject->file_path;
+                    if (Storage::disk('public')->exists($oldFilePath)) {
+                        Storage::disk('public')->delete($oldFilePath);
+                    }
+                }
+
+                $file = $request->file('file');
+                $fileName = $request->input('title') . '_' . $course->name . '_' . 'Paket' . $classroom->level->name . '_' . 'Kelas' . $classroom->level->class . '.' . $file->getClientOriginalExtension();
+                $directory = 'subjects';
+
+                if (!Storage::disk('public')->exists($directory)) {
+                    Storage::disk('public')->makeDirectory($directory);
+                }
+
+                $file->storeAs($directory, $fileName, 'public');
+                $subject->file_path = $fileName;
+            }
+        } elseif ($request->input('format') == 'url') {
+            $subject->url = $request->input('url');
+        }
+
+        $subject->save();
+
+        return redirect()->back()->with('success', 'Materi berhasil ditambahkan.');
+    }
+
+    public function deleteSubject(Request $request): RedirectResponse
+    {
+        $subject = Subject::find($request->input('data_id'));
+
+        if ($subject->file_path) {
+            $oldFilePath = 'subjects/' . $subject->file_path;
+            if (Storage::disk('public')->exists($oldFilePath)) {
+                Storage::disk('public')->delete($oldFilePath);
+            }
+        }
+
+        $subject->delete();
+
+        return redirect()->back()->with('success', 'Materi berhasil dihapus.');
     }
 }
