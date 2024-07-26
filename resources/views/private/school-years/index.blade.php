@@ -58,10 +58,10 @@
                                                     Semester
                                                 </th>
 
-                                                <th scope="col"
+                                                {{-- <th scope="col"
                                                     class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
                                                     Status
-                                                </th>
+                                                </th> --}}
 
                                                 <th scope="col"
                                                     class="px-4 py-3.5 text-sm font-normal text-center rtl:text-right text-gray-500">
@@ -72,7 +72,7 @@
                                         <tbody class="bg-white divide-y divide-gray-200">
                                             @if ($schoolYears->count() == 0)
                                                 <tr>
-                                                    <td colspan="5"
+                                                    <td colspan="4"
                                                         class="px-4 py-4 text-sm font-medium whitespace-nowrap text-center">
                                                         <h4 class="text-gray-700">
                                                             Tidak ada data
@@ -103,7 +103,7 @@
                                                                 @endif
                                                             </h4>
                                                         </td>
-                                                        <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
+                                                        {{-- <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
                                                             <h4 class="text-gray-700">
                                                                 @if ($sy->active == 1)
                                                                     Aktif
@@ -111,7 +111,7 @@
                                                                     Tidak
                                                                 @endif
                                                             </h4>
-                                                        </td>
+                                                        </td> --}}
 
                                                         <td class="px-4 py-4 text-sm whitespace-nowrap text-center">
                                                             <x-secondary-button x-data=""

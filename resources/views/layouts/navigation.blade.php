@@ -129,10 +129,10 @@
                             <x-responsive-nav-link :href="route('levels.index')" :active="request()->routeIs('levels.*')">
                                 {{ __('Tingkatan') }}
                             </x-responsive-nav-link>
+                            <x-responsive-nav-link :href="route('school-years.index')" :active="request()->routeIs('school-years.*')">
+                                {{ __('Tahun Ajaran') }}
+                            </x-responsive-nav-link>
                         @endhasrole
-                        <x-responsive-nav-link :href="route('school-years.index')" :active="request()->routeIs('school-years.*')">
-                            {{ __('Tahun Ajaran') }}
-                        </x-responsive-nav-link>
                         <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                             {{ __('Users') }}
                         </x-responsive-nav-link>

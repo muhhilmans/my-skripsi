@@ -91,9 +91,9 @@
                                                         </td>
                                                         <td class="px-12 py-4 text-sm font-medium whitespace-nowrap">
                                                             <div class="flex items-center">
-                                                                <img class="object-cover w-10 h-10 -mx-1 border-2 border-gray-500 rounded-full shrink-0"
+                                                                {{-- <img class="object-cover w-10 h-10 -mx-1 border-2 border-gray-500 rounded-full shrink-0"
                                                                     src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=256&q=80"
-                                                                    alt="">
+                                                                    alt=""> --}}
                                                                 <h2 class="font-medium text-gray-800 ps-3">
                                                                     {{ $user->name }}
                                                                 </h2>
