@@ -44,7 +44,7 @@
                             </select>
                             <x-input-error :messages="$errors->get('semester')" class="mt-2" />
                         </div>
-                        <div class="basis-1/2">
+                        {{-- <div class="basis-1/2">
                             <x-input-label for="active" :value="__('Status')" required />
                             <select id="active" name="active"
                                 class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm block w-full p-2.5"
@@ -54,7 +54,7 @@
                                 <option value="0">Tidak Aktif</option>
                             </select>
                             <x-input-error :messages="$errors->get('active')" class="mt-2" />
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>

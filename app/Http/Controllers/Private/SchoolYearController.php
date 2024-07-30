@@ -30,7 +30,7 @@ class SchoolYearController extends Controller
             'early_year' => ['required', 'integer'],
             'final_year' => ['required', 'integer'],
             'semester' => ['required', 'boolean'],
-            'active' => ['required', 'boolean'],
+            // 'active' => ['required', 'boolean'],
         ]);
 
         if ($validator->fails()) {
@@ -43,7 +43,7 @@ class SchoolYearController extends Controller
             'early_year' => $request->early_year,
             'final_year' => $request->final_year,
             'semester' => $request->semester,
-            'active' => $request->active,
+            'active' => 1,
         ]);
 
         notify()->success('Tahun Ajaran telah dibuat!');
@@ -76,7 +76,7 @@ class SchoolYearController extends Controller
             'early_year' => ['required', 'integer'],
             'final_year' => ['required', 'integer'],
             'semester' => ['required', 'boolean'],
-            'active' => ['required', 'boolean'],
+            // 'active' => ['required', 'boolean'],
         ]);
 
         if ($validator->fails()) {
@@ -88,7 +88,7 @@ class SchoolYearController extends Controller
         $schoolYear->early_year = $request->early_year;
         $schoolYear->final_year = $request->final_year;
         $schoolYear->semester = $request->semester;
-        $schoolYear->active = $request->active;
+        $schoolYear->active = 1;
         
         $schoolYear->save();
 
