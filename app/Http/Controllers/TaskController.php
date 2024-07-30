@@ -46,7 +46,9 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect()->back()->with('success', 'Tugas berhasil ditambahkan.');
+        notify()->success('Tugas baru telah ditambahkan.');
+
+        return redirect()->back();
     }
 
     public function downloadTask($id)
@@ -111,7 +113,9 @@ class TaskController extends Controller
 
         $task->save();
 
-        return redirect()->back()->with('success', 'Tugas berhasil diubah.');
+        notify()->success('Tugas berhasil diperbarui.');
+
+        return redirect()->back();
     }
 
     public function deleteTask(Request $request): RedirectResponse
@@ -127,7 +131,9 @@ class TaskController extends Controller
 
         $task->delete();
 
-        return redirect()->back()->with('success', 'Tugas berhasil dihapus.');
+        notify()->success('Tugas berhasil dihapus.');
+
+        return redirect()->back();
     }
 
     public function uploadTask(Request $request, Classroom $classroom, Course $course): RedirectResponse
@@ -165,6 +171,8 @@ class TaskController extends Controller
 
         $taskStudent->save();
 
-        return redirect()->back()->with('success', 'File tugas berhasil diupload.');
+        notify()->success('File tugas berhasil dikirimkan.');
+
+        return redirect()->back();
     }
 }

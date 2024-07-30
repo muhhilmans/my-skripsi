@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Private;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
-use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -63,7 +63,9 @@ class UserController extends Controller
 
         $user->assignRole($request->roles);
 
-        return Redirect::route('users.index')->with('success', 'User telah dibuat!');
+        notify()->success(__('User berhasil ditambahkan.'));
+
+        return Redirect::route('users.index');
     }
 
     /**
@@ -89,8 +91,8 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'email' => ['sometimes', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'roles' => ['required'],
         ]);
 
@@ -113,7 +115,9 @@ class UserController extends Controller
 
         $user->syncRoles($request->roles);
 
-        return Redirect::route('users.index')->with('success', 'User telah diperbarui!');
+        notify()->success(__('User telah diperbarui.'));
+
+        return Redirect::route('users.index');
     }
 
     /**
@@ -125,6 +129,8 @@ class UserController extends Controller
 
         $user->delete();
 
-        return Redirect::route('users.index')->with('success', 'User telah dihapus!');
+        notify()->success(__('User telah dihapus.'));
+
+        return Redirect::route('users.index');
     }
 }

@@ -46,7 +46,9 @@ class SchoolYearController extends Controller
             'active' => $request->active,
         ]);
 
-        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah dibuat!');
+        notify()->success('Tahun Ajaran telah dibuat!');
+
+        return Redirect::route('school-years.index');
     }
 
     /**
@@ -90,7 +92,9 @@ class SchoolYearController extends Controller
         
         $schoolYear->save();
 
-        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah diperbarui!');
+        notify()->success('Tahun Ajaran telah diperbarui!');
+
+        return Redirect::route('school-years.index');
     }
 
     /**
@@ -102,6 +106,8 @@ class SchoolYearController extends Controller
 
         $schoolYear->delete();
 
-        return Redirect::route('school-years.index')->with('success', 'Tahun Ajaran telah dihapus!');
+        notify()->success('Tahun Ajaran telah dihapus!');
+
+        return Redirect::route('school-years.index');
     }
 }

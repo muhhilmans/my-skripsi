@@ -108,7 +108,9 @@ class LearningController extends Controller
 
         $subject->save();
 
-        return redirect()->back()->with('success', 'Materi berhasil ditambahkan.');
+        notify()->success('Materi berhasil ditambahkan.');
+
+        return redirect()->back();
     }
 
     public function downloadSubject($id)
@@ -180,7 +182,9 @@ class LearningController extends Controller
 
         $subject->save();
 
-        return redirect()->back()->with('success', 'Materi berhasil diubah.');
+        notify()->success('Materi berhasil diperbarui.');
+
+        return redirect()->back();
     }
 
     public function deleteSubject(Request $request): RedirectResponse
@@ -196,6 +200,8 @@ class LearningController extends Controller
 
         $subject->delete();
 
-        return redirect()->back()->with('success', 'Materi berhasil dihapus.');
+        notify()->success('Materi berhasil dihapus.');
+
+        return redirect()->back();
     }
 }

@@ -42,7 +42,9 @@ class LevelController extends Controller
             'class' => $request->class,
         ]);
 
-        return Redirect::route('levels.index')->with('success', 'Tingkat telah dibuat!');
+        notify()->success('Tingkat telah dibuat!');
+
+        return Redirect::route('levels.index');
     }
 
     /**
@@ -82,7 +84,9 @@ class LevelController extends Controller
         
         $level->save();
 
-        return Redirect::route('levels.index')->with('success', 'Tingkat telah diperbarui!');
+        notify()->success('Tingkat telah diperbarui!');
+
+        return Redirect::route('levels.index');
     }
 
     /**
@@ -94,6 +98,8 @@ class LevelController extends Controller
 
         $level->delete();
 
-        return Redirect::route('levels.index')->with('success', 'Tingkat telah dihapus!');
+        notify()->success('Tingkat telah dihapus!');
+
+        return Redirect::route('levels.index');
     }
 }

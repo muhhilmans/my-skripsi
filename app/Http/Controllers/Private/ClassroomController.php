@@ -54,7 +54,9 @@ class ClassroomController extends Controller
             'school_year_id' => $request->school_year_id
         ]);
 
-        return Redirect::route('classrooms.index')->with('success', 'Ruang Kelas telah dibuat!');
+        notify()->success('Ruang Kelas telah dibuat!');
+
+        return Redirect::route('classrooms.index');
     }
 
     /**
@@ -98,7 +100,9 @@ class ClassroomController extends Controller
             'user_id' => $request->input('user_id'),
         ]);
 
-        return Redirect::route('classrooms.show', $classroom->id)->with('status', 'Siswa telah ditambahkan!');
+        notify()->success('Siswa telah ditambahkan!');
+
+        return Redirect::route('classrooms.show', $classroom->id);
     }
 
     public function removeStudent(Request $request)
@@ -107,7 +111,9 @@ class ClassroomController extends Controller
 
         $student->delete();
 
-        return redirect()->back()->with('success', 'Siswa telah dihapus dari kelas!');
+        notify()->success('Siswa telah dihapus dari kelas!');
+
+        return redirect()->back();
     }
 
     /**
@@ -143,7 +149,9 @@ class ClassroomController extends Controller
 
         $classroom->save();
 
-        return Redirect::route('classrooms.index')->with('success', 'Ruang Kelas telah diperbarui!');
+        notify()->success('Ruang Kelas telah diperbarui!');
+
+        return Redirect::route('classrooms.index');
     }
 
     /**
@@ -155,6 +163,8 @@ class ClassroomController extends Controller
 
         $classroom->delete();
 
-        return Redirect::route('classrooms.index')->with('success', 'Ruang Kelas telah dihapus!');
+        notify()->success('Ruang Kelas telah dihapus!');
+
+        return Redirect::route('classrooms.index');
     }
 }

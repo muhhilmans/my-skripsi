@@ -62,6 +62,8 @@ class EvaluationController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('success', 'Evaluasi berhasil disimpan.');
+        notify()->success('Evaluasi berhasil disimpan.');
+
+        return redirect()->back();
     }
 }

@@ -16,12 +16,19 @@
     {{-- <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet"> --}}
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+    <!-- Laravel Notify -->
+    @notifyCss
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gray-100">
+        <!-- Laravel Notify -->
+        <div class="fixed top-0 left-0 right-0 z-50">
+            @include('notify::components.notify')
+        </div>
         @include('layouts.navigation')
 
         <!-- Page Heading -->
@@ -38,17 +45,19 @@
             {{ $slot }}
         </main>
     </div>
+
+    @notifyJs
     {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const filter = document.getElementById("filter");
             const items = document.querySelectorAll("tbody tr");
-    
+
             if (filter) {
                 filter.addEventListener("input", (e) => filterData(e.target.value));
             }
-    
+
             function filterData(search) {
                 items.forEach((item) => {
                     if (item.innerText.toLowerCase().includes(search.toLowerCase())) {

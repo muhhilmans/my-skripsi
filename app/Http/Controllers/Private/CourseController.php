@@ -53,7 +53,9 @@ class CourseController extends Controller
             'user_id' => $request->user_id
         ]);
 
-        return Redirect::route('courses.index')->with('success', 'Mata Pelajaran telah dibuat!');
+        notify()->success('Mata Pelajaran telah dibuat!');
+
+        return Redirect::route('courses.index');
     }
 
     /**
@@ -95,7 +97,9 @@ class CourseController extends Controller
         
         $course->save();
 
-        return Redirect::route('courses.index')->with('success', 'Mata Pelajaran telah diperbarui!');
+        notify()->success('Mata Pelajaran telah diperbarui!');
+
+        return Redirect::route('courses.index');
     }
 
     /**
@@ -107,6 +111,8 @@ class CourseController extends Controller
 
         $course->delete();
 
-        return Redirect::route('courses.index')->with('success', 'Mata Pelajaran telah dihapus!');
+        notify()->success('Mata Pelajaran telah dihapus!');
+
+        return Redirect::route('courses.index');
     }
 }
